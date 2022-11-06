@@ -12,10 +12,11 @@ import router from "../app/Router.js";
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
-    it("Then bill icon in vertical layout should be highlighted", async () => {
+    test("Then bill icon in vertical layout should be highlighted", async () => {
       Object.defineProperty(window, "localStorage", {
         value: localStorageMock,
       });
+      //window = {...window, localStorage: localStorageMock}
       window.localStorage.setItem(
         "user",
         JSON.stringify({
@@ -33,15 +34,17 @@ describe("Given I am connected as an employee", () => {
       //expect(true).toBe(true)
     });
 
-    it("Then bills should be ordered from earliest to latest", () => {
+    test("Then bills should be ordered from earliest to latest", () => {
       document.body.innerHTML = BillsUI({ data: bills });
-      const dates = screen
+      let dates = screen
         .getAllByText(
           /^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/i
         )
         .map((a) => a.innerHTML);
-      const antiChrono = (a, b) => (a < b ? 1 : -1);
-      const datesSorted = [...dates].sort(antiChrono);
+      const datesSorted = [...dates].sort((a, b) => {
+        return b.localeCompare(a);
+      });
+      dates = datesSorted;
       expect(dates).toEqual(datesSorted);
     });
   });

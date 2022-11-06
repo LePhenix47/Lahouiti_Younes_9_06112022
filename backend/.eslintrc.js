@@ -5,12 +5,17 @@ module.exports = {
     es2021: true,
   },
   extends: [
-    'airbnb-base',
+    // 'airbnb-base',
   ],
   parserOptions: {
     ecmaVersion: 13,
   },
-  rules: {
-  },
-  ignorePatterns: ['tests', 'setupTests.js', '*.test.js', 'migrations', 'models'],
+  rules: {},
+  ignorePatterns: [
+    "tests",
+    "setupTests.js",
+    "*.test.js",
+    "migrations",
+    "models",
+  ],
 };
