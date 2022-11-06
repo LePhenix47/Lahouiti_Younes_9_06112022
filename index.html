@@ -38,12 +38,26 @@
     -ms-flex-align: center;
     align-items: center;
     font-family: 'Roboto', sans-serif;
-    background-color: #fff;
+    background-color: var(--body-bg-color);
   }
 
   #root {
     width: 100%;
     height: 100%;
+  }
+
+  :root {
+    --body-bg-color: white;
+    --text-color: black;
+
+  }
+
+  @media (prefers-color-scheme:dark) {
+    :root {
+      --body-bg-color: black;
+      --text-color: white;
+
+    }
   }
 </style>
 
