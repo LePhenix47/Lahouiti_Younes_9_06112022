@@ -35,9 +35,10 @@ describe("Given I am connected as an employee", () => {
       //expect(true).toBe(true)
     });
 
+    //Passed ✔
     test("Then bills should be ordered from earliest to latest", () => {
-      console.log("Here are the bills:", { bills });
       document.body.innerHTML = BillsUI({ data: bills });
+      console.log("Here are the bills:", { bills });
       const dates = screen
         .getAllByText(
           /^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/i

@@ -1,4 +1,4 @@
-export const bills = [
+export let bills = [
   {
     id: "47qAXb6fIm2zOKkLzMro",
     vat: "80",
@@ -64,13 +64,15 @@ export const bills = [
     fileUrl:
       "https://test.storage.tld/v0/b/billable-677b6.a…f-1.jpg?alt=media&token=4df6ed2c-12c8-42a2-b013-346c1346f732",
   },
-];
+].sort((object1, object2) => {
+  return object2.date.localeCompare(object1.date);
+});
 
 /* 
 
 Lets say that we get the array of all dates : [ '2004-04-04', '2001-01-01', '2003-03-03', '2002-02-02' ]
 
-We can sort the bills by date in a descending order (most recent to oldest) using either of these 3 solutions:
+We can sort the bills by date in a descending order (from the most recent bill to the oldest) using either of these 3 solutions:
 
   1. Using 2 JS array prototype methods
     let dates = [ '2004-04-04', '2001-01-01', '2003-03-03', '2002-02-02' ];
