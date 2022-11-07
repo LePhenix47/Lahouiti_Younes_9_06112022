@@ -1,6 +1,7 @@
 {
   "scripts": {
     "test": "jest --coverage --noStackTrace --silent",
+    "single-file-jest": "npm run test -- [Name of file test] --silent=false",
     "jest": "node_modules/.bin/jest"
   },
   "jest": {

@@ -164,7 +164,7 @@ describe("Given that I am a user on login page", () => {
   });
 
   describe("When I do fill fields in correct format and I click on admin button Login In", () => {
-    test("Then I should be identified as an HR admin in app", () => {
+    test("Then I should be identified as an HR admin in app 1", () => {
       //Test: in progress 🔨
       document.body.innerHTML = LoginUI();
       const inputData = {
@@ -178,8 +178,7 @@ describe("Given that I am a user on login page", () => {
       fireEvent.change(inputEmailUser, { target: { value: inputData.email } });
 
       //Passed ✔
-      expect(inputEmailUser.value).toBeDefined();
-      // expect(inputEmailUser.value).toBe(inputData.email);
+      expect(inputEmailUser.value).toBe(inputData.email);
 
       const inputPasswordUser = screen.getByTestId("admin-password-input");
       fireEvent.change(inputPasswordUser, {
@@ -187,8 +186,7 @@ describe("Given that I am a user on login page", () => {
       });
 
       //Passed ✔
-      expect(inputPasswordUser.value).toBeDefined();
-      // expect(inputPasswordUser.value).toBe(inputData.password);
+      expect(inputPasswordUser.value).toBe(inputData.password);
 
       const form = screen.getByTestId("form-admin");
 
@@ -200,6 +198,15 @@ describe("Given that I am a user on login page", () => {
         },
         writable: true,
       });
+      // window = {
+      //   ...window,
+      //   setItem: () => {
+      //     null;
+      //   },
+      //   getItem: () => {
+      //     null;
+      //   },
+      // };
 
       // we have to mock navigation to test it
       const onNavigate = (pathname) => {
@@ -210,6 +217,8 @@ describe("Given that I am a user on login page", () => {
 
       const store = jest.fn();
 
+      // Errors need to be fixed here ❌
+      // → TypeError: Cannot read properties of null (reading 'value')
       const login = new Login({
         document,
         localStorage: window.localStorage,
@@ -222,7 +231,7 @@ describe("Given that I am a user on login page", () => {
       login.login = jest.fn().mockResolvedValue({});
       form.addEventListener("submit", handleSubmit);
       fireEvent.submit(form);
-      //
+
       expect(handleSubmit).toHaveBeenCalled();
       //
       expect(window.localStorage.setItem).toHaveBeenCalled();
@@ -231,7 +240,7 @@ describe("Given that I am a user on login page", () => {
         "user",
         JSON.stringify({
           type: "Admin",
-          email: inputData.email,
+          email: inputData.email, //Getting
           password: inputData.password,
           status: "connected",
         })
