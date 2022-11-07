@@ -33,10 +33,6 @@ export default class Login {
       `input[data-testid="employee-password-input"]`
     );
 
-    // console.log(e.target);
-    // console.log({ emailInput, passwordInput });
-    // console.log("Value of email = ", emailInput.value);
-    // console.log("Value of password = ", passwordInput.value);
     const user = {
       type: "Employee",
       email: emailInput.value,
@@ -64,18 +60,10 @@ export default class Login {
       `input[data-testid="admin-password-input"]`
     );
 
-    console.log({ emailInput, passwordInput });
-    console.log("ADMIN Value of email = ", emailInput.value);
-    console.log("ADMIN Value of password = ", passwordInput.value);
-
-    console.log("ADMIN", e.target);
     const user = {
       type: "Admin",
-      email: e.target.querySelector(`input[data-testid="admin-email-input"]`)
-        .value,
-      password: e.target.querySelector(
-        `input[data-testid="admin-password-input"]`
-      ).value,
+      email: emailInput.value,
+      password: passwordInput.value,
       status: "connected",
     };
     this.localStorage.setItem("user", JSON.stringify(user));

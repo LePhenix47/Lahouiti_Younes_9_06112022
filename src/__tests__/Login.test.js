@@ -164,8 +164,8 @@ describe("Given that I am a user on login page", () => {
   });
 
   describe("When I do fill fields in correct format and I click on admin button Login In", () => {
-    test("Then I should be identified as an HR admin in app 1", () => {
-      //Test: in progress 🔨
+    test("Then I should be identified as an HR admin in app", () => {
+      //Test: done and SUCCESSFUL ✅
       document.body.innerHTML = LoginUI();
       const inputData = {
         type: "Admin",
@@ -217,8 +217,6 @@ describe("Given that I am a user on login page", () => {
 
       const store = jest.fn();
 
-      // Errors need to be fixed here ❌
-      // → TypeError: Cannot read properties of null (reading 'value')
       const login = new Login({
         document,
         localStorage: window.localStorage,
@@ -232,15 +230,18 @@ describe("Given that I am a user on login page", () => {
       form.addEventListener("submit", handleSubmit);
       fireEvent.submit(form);
 
+      //Passed ✔
       expect(handleSubmit).toHaveBeenCalled();
-      //
+
+      //Passed ✔
       expect(window.localStorage.setItem).toHaveBeenCalled();
-      //
+
+      //Passed ✔
       expect(window.localStorage.setItem).toHaveBeenCalledWith(
         "user",
         JSON.stringify({
           type: "Admin",
-          email: inputData.email, //Getting
+          email: inputData.email,
           password: inputData.password,
           status: "connected",
         })
@@ -249,9 +250,8 @@ describe("Given that I am a user on login page", () => {
     });
 
     test("It should renders HR dashboard page", () => {
-      //
+      //Passed ✔
       expect(screen.queryByText("Validations")).toBeTruthy();
-      //
     });
   });
 });
