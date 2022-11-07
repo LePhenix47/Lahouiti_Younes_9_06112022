@@ -10,6 +10,7 @@ import { localStorageMock } from "../__mocks__/localStorage.js";
 
 import router from "../app/Router.js";
 
+//Test: in progress 🔨
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
     test("Then bill icon in vertical layout should be highlighted", async () => {
@@ -35,16 +36,17 @@ describe("Given I am connected as an employee", () => {
     });
 
     test("Then bills should be ordered from earliest to latest", () => {
+      console.log("Here are the bills:", { bills });
       document.body.innerHTML = BillsUI({ data: bills });
-      let dates = screen
+      const dates = screen
         .getAllByText(
           /^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/i
         )
         .map((a) => a.innerHTML);
+      console.log("Array of dates:", dates);
       const datesSorted = [...dates].sort((a, b) => {
         return b.localeCompare(a);
       });
-      dates = datesSorted;
       expect(dates).toEqual(datesSorted);
     });
   });
