@@ -11,6 +11,7 @@ export default class NewBill {
     );
     formNewBill.addEventListener("submit", this.handleSubmit);
     const file = this.document.querySelector(`input[data-testid="file"]`);
+
     file.addEventListener("change", this.handleChangeFile);
     this.fileUrl = null;
     this.fileName = null;
@@ -19,6 +20,7 @@ export default class NewBill {
   }
   handleChangeFile = (e) => {
     e.preventDefault();
+
     const inputFile = this.document.querySelector(`input[data-testid="file"]`);
 
     // inputFile.createAttribute("accept");
@@ -55,9 +57,12 @@ export default class NewBill {
     this.fileUrl = e.target.value;
 
     const formData = new FormData();
-    const email = JSON.parse(localStorage.getItem("user")).email;
-    formData.append("file", file);
-    formData.append("email", email);
+    formData.append("fileUrl", this.fileUrl);
+    formData.append("fileName", this.fileName);
+
+    //There are errors after line 58 (if we're in line 48) since we append the form data and send just: email and file
+    //WITHOUT any other info about the form itself such as the
+    console.log(this.fileUrl, this.fileName);
 
     this.store
       .bills()
@@ -68,40 +73,84 @@ export default class NewBill {
         },
       })
       .then(({ fileUrl, key }) => {
-        console.log(fileUrl);
+        console.log({ fileUrl, key });
         this.billId = key;
         this.fileUrl = fileUrl;
         this.fileName = fileName;
-        console.log("Updating!");
+        e.preventDefault();
       })
       .catch((error) => console.error(error));
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(
-      'e.target.querySelector(`input[data-testid="datepicker"]`).value',
-      e.target.querySelector(`input[data-testid="datepicker"]`).value
-    );
-    const email = JSON.parse(localStorage.getItem("user")).email;
+
+    const userInfos = JSON.parse(localStorage.getItem("user"));
+    const vlaueOfEmail = userInfos.email;
+
+    const valueOfType = e.target.querySelector(
+      `select[data-testid="expense-type"]`
+    ).value;
+    const valueOfName = e.target.querySelector(
+      `input[data-testid="expense-name"]`
+    ).value;
+    const valueOfAmount = e.target.querySelector(
+      `input[data-testid="amount"]`
+    ).valueAsNumber;
+    const valueOfDate = e.target.querySelector(
+      `input[data-testid="datepicker"]`
+    ).valueAsDate;
+    const valueOfPercentage =
+      e.target.querySelector(`input[data-testid="pct"]`).valueAsNumber || 20;
+    const valueOfVAT = e.target.querySelector(
+      `input[data-testid="vat"]`
+    ).valueAsNumber;
+    const valueOfCommentary = e.target.querySelector(
+      `textarea[data-testid="commentary"]`
+    ).value;
+
+    const formData = new FormData();
+    formData.append("email", vlaueOfEmail);
+    formData.append("type", valueOfType);
+    formData.append("name", valueOfName);
+    formData.append("amount", valueOfAmount);
+    formData.append("date", valueOfDate);
+    formData.append("vat", valueOfVAT);
+    formData.append("pct", valueOfPercentage);
+    formData.append("commentary", valueOfCommentary);
+    formData.append("fileUrl", this.fileUrl);
+    formData.append("fileName", this.fileName);
+    formData.append("status", "pending");
+
+    /* 
+    const email = JSON.parse(localStorage.getItem("user")).email
     const bill = {
       email,
       type: e.target.querySelector(`select[data-testid="expense-type"]`).value,
-      name: e.target.querySelector(`input[data-testid="expense-name"]`).value,
-      amount: parseInt(
-        e.target.querySelector(`input[data-testid="amount"]`).value
-      ),
-      date: e.target.querySelector(`input[data-testid="datepicker"]`).value,
+      name:  e.target.querySelector(`input[data-testid="expense-name"]`).value,
+      amount: parseInt(e.target.querySelector(`input[data-testid="amount"]`).value),
+      date:  e.target.querySelector(`input[data-testid="datepicker"]`).value,
       vat: e.target.querySelector(`input[data-testid="vat"]`).value,
-      pct:
-        parseInt(e.target.querySelector(`input[data-testid="pct"]`).value) ||
-        20,
-      commentary: e.target.querySelector(`textarea[data-testid="commentary"]`)
-        .value,
+      pct: parseInt(e.target.querySelector(`input[data-testid="pct"]`).value) || 20,
+      commentary: e.target.querySelector(`textarea[data-testid="commentary"]`).value,
       fileUrl: this.fileUrl,
       fileName: this.fileName,
-      status: "pending",
-    };
+      status: 'pending'
+    }
+    this.updateBill(bill)
+    this.onNavigate(ROUTES_PATH['Bills'])
+  }
+*/
+
+    let bill = [];
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ", " + pair[1]);
+      bill.push([pair[0], pair[1]]);
+    }
+
+    bill = Object.fromEntries(bill);
+    console.log(bill);
+
     this.updateBill(bill);
     this.onNavigate(ROUTES_PATH["Bills"]);
   };

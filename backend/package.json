@@ -37,6 +37,9 @@
   "jest": {
     "setupFilesAfterEnv": [
       "./setupTests.js"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/backend/**"
     ]
   }
 }
