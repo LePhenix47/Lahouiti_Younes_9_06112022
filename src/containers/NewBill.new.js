@@ -69,7 +69,7 @@ export default class NewBill {
       .create({
         data: formData,
         headers: {
-          noContentType: true,
+          noContentType: false,
         },
       })
       .then(({ fileUrl, key }) => {
@@ -86,7 +86,7 @@ export default class NewBill {
     e.preventDefault();
 
     const userInfos = JSON.parse(localStorage.getItem("user"));
-    const vlaueOfEmail = userInfos.email;
+    const valueOfEmail = userInfos.email;
 
     const valueOfType = e.target.querySelector(
       `select[data-testid="expense-type"]`
@@ -110,7 +110,7 @@ export default class NewBill {
     ).value;
 
     const formData = new FormData();
-    formData.append("email", vlaueOfEmail);
+    formData.append("email", valueOfEmail);
     formData.append("type", valueOfType);
     formData.append("name", valueOfName);
     formData.append("amount", valueOfAmount);
