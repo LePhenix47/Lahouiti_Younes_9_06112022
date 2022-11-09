@@ -1,4 +1,4 @@
-## Ce projet contient le code du 9ème projet de la formation de Développeur JS-React chez OpenClassrooms
+# Ce projet contient le code du 9ème projet de la formation de Développeur JS-React chez OpenClassrooms
 
 Nous avons dans la [Kanban Notion](https://www.notion.so/a7a612fc166747e78d95aa38106a55ec?v=2a8d3553379c4366b6f66490ab8f0b90&p=01b2963f50654215baae678fa4dc4851&pm=s):
 
@@ -19,3 +19,35 @@ Nous avons dans la [Kanban Notion](https://www.notion.so/a7a612fc166747e78d95aa3
 2. Pour le fichier NewBill.js
 
 > Rédiger un test "End-to-end" sur le parcours employé sur Word
+
+---
+
+## Commandes utiles:
+
+### 1. Front-end
+
+Pour démarrer le serveur Front-end
+
+```cmd
+live-server
+```
+
+Pour tester _un seul_ fichier sur Jest en affichant les valeurs du `console.log()`
+
+```cmd
+npm run test -- [NOM DU FICHIER] --silent=false
+```
+
+Pour tester _tous_ les fichiers sur Jest
+
+```cmd
+npm run test
+```
+
+### 2. Back-end
+
+Pour démarrer le serveur Back-end
+
+```cmd
+npm run nodemon
+```
