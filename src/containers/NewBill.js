@@ -55,6 +55,7 @@ export default class NewBill {
 
     const file = inputFile.files[0];
 
+    //If no file was added
     if (!file) {
       console.log("No file was added");
       return;
@@ -67,11 +68,13 @@ export default class NewBill {
       this.file
     );
 
+    //To check if the file sent is an image and the format of the image is acceptable
     let fileIsAnImageWithAcceptableFormat =
       file.type.includes("image/png") ||
       file.type.includes("image/jpg") ||
       file.type.includes("image/jpeg");
-    if (file && fileIsAnImageWithAcceptableFormat) {
+
+    if (fileIsAnImageWithAcceptableFormat) {
       console.log(
         "%cFile type is an image with an acceptable format",
         "font-size:20px; padding: 5px; background: green"
@@ -130,12 +133,6 @@ export default class NewBill {
   //   formData.append("email", email);
   //   this.fileName = fileName;
   //   this.fileUrl = e.target.value;
-  // window.addEventListener("beforeunload", (e) => {
-  //   e.preventDefault();
-  // });
-  // window.addEventListener("unload", (e) => {
-  //   e.preventDefault();
-  // });
   // this.store
   //   .bills()
   //   .create({

@@ -6,7 +6,7 @@ Nous avons dans la [Kanban Notion](https://www.notion.so/a7a612fc166747e78d95aa3
 
 1. Le test Bills / les notes de frais s'affichent par ordre décroissant est passé au rouge.
 
-2. Dans le rapport de test "Login, si un administrateur remplit correctement les champs du Login, il devrait naviguer sur la page Dashboard", le test est passé au rouge (cf. copie d'écran).
+2. Dans le rapport de test "Login, si un administrateur remplit correctement les champs du Login, il devrait naviguer sur la page Dashboard", le test est passé au rouge.
 
 3. On peut soit ne pas envoyer d'image soit envoyer des fichiers autres que des images
 
