@@ -23,6 +23,19 @@ const create = async (req, res) => {
       amount,
     } = req.body;
     const { file } = req;
+
+    // const valueAreDefined = Object.values(file).every((value) => {
+    //   return !!value;
+    // });
+
+    // if (!valueAreDefined) {
+    //   console.log("Some values are NOT defined! Returning error 400");
+    //   return res.status(400).send({
+    //     message:
+    //       "Some values in the form sent to the Back-end are undefined or null",
+    //   });
+    // }
+
     const bill = await Bill.create({
       name,
       type,
@@ -37,7 +50,7 @@ const create = async (req, res) => {
       filePath: isPicture(file.mimetype) ? file.path : "null",
       amount,
     });
-    console.log(bill);
+
     return res.status(201).json(bill);
   } catch (err) {
     return res.status(500).send({ message: err.message });

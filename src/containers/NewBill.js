@@ -26,8 +26,9 @@ export default class NewBill {
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
     const filePath = e.target.value.split(/\\/g)
     const fileName = filePath[filePath.length-1]
-    const formData = new FormData()
     const email = JSON.parse(localStorage.getItem("user")).email
+
+    const formData = new FormData()
     formData.append('file', file)
     formData.append('email', email)
 
@@ -47,12 +48,10 @@ export default class NewBill {
       }).catch(error => console.error(error))
   }
   */
+
   handleChangeFile = (e) => {
     e.preventDefault();
     const inputFile = this.document.querySelector(`input[data-testid="file"]`);
-
-    // inputFile.createAttribute("accept");
-    inputFile.setAttribute("accept", "image/*,.png,.jpg,.jpeg");
 
     const file = inputFile.files[0];
 
@@ -92,8 +91,74 @@ export default class NewBill {
     this.fileUrl = e.currentTarget.value;
 
     console.log(this.fileName, "&", this.fileUrl);
+
+    const email = JSON.parse(localStorage.getItem("user")).email;
+
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("file", file);
+
+    this.store
+      .bills()
+      .create({
+        //Problem lies within this line
+        //after we upload the image → The page refreshes itself
+        //and sends the uncompleted bill with the image file to the Database
+        data: formData,
+        headers: {
+          noContentType: true,
+        },
+      })
+      .then(({ fileUrl, key }) => {
+        console.log(fileUrl);
+        this.billId = key;
+        this.fileUrl = fileUrl;
+        this.fileName = fileName;
+      })
+      .catch((error) => console.error(error));
   };
 
+  // handleChangeFile = (e) => {
+  //   e.preventDefault();
+  //   const file = this.document.querySelector(`input[data-testid="file"]`)
+  //     .files[0];
+  //   const filePath = e.target.value.split(/\\/g);
+  //   const fileName = filePath[filePath.length - 1];
+  //   const formData = new FormData();
+  //   const email = JSON.parse(localStorage.getItem("user")).email;
+  //   formData.append("file", file);
+  //   formData.append("email", email);
+  //   this.fileName = fileName;
+  //   this.fileUrl = e.target.value;
+  // window.addEventListener("beforeunload", (e) => {
+  //   e.preventDefault();
+  // });
+  // window.addEventListener("unload", (e) => {
+  //   e.preventDefault();
+  // });
+  // this.store
+  //   .bills()
+  //   .create({
+  //     //Problem lies within this line
+  //     //after we upload the image → The page refreshes itself
+  //     //and sends the uncompleted bill with the image file to the Database
+  //     data: formData,
+  //     headers: {
+  //       noContentType: true,
+  //     },
+  //   })
+  //   .then(({ fileUrl, key }) => {
+  //     console.log(fileUrl);
+  //     this.billId = key;
+  //     this.fileUrl = fileUrl;
+  //     this.fileName = fileName;
+  //   })
+  //   .catch((error) => console.error(error));
+  // };
+  /*
+
+*/
+  //
   handleSubmit = (e) => {
     e.preventDefault();
     console.log(
@@ -124,7 +189,7 @@ export default class NewBill {
       .create({
         data: bill,
         headers: {
-          noContentType: true,
+          noContentType: false,
         },
       })
       .then(({ fileUrl, key }) => {
@@ -135,12 +200,13 @@ export default class NewBill {
         e.preventDefault();
       })
       .catch((error) => console.error(error));
-    // this.updateBill(bill);
+    this.updateBill(bill);
     this.onNavigate(ROUTES_PATH["Bills"]);
   };
 
   // not need to cover this function by tests
   updateBill = (bill) => {
+    console.log("this.store:\n", this.store);
     if (this.store) {
       this.store
         .bills()
