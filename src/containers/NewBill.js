@@ -20,34 +20,6 @@ export default class NewBill {
     //
     new Logout({ document, localStorage, onNavigate });
   }
-  /*
-    handleChangeFile = e => {
-    e.preventDefault()
-    const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
-    const filePath = e.target.value.split(/\\/g)
-    const fileName = filePath[filePath.length-1]
-    const email = JSON.parse(localStorage.getItem("user")).email
-
-    const formData = new FormData()
-    formData.append('file', file)
-    formData.append('email', email)
-
-    this.store
-      .bills()
-      .create({
-        data: formData,
-        headers: {
-          noContentType: true
-        }
-      })
-      .then(({fileUrl, key}) => {
-        console.log(fileUrl)
-        this.billId = key
-        this.fileUrl = fileUrl
-        this.fileName = fileName
-      }).catch(error => console.error(error))
-  }
-  */
 
   handleChangeFile = (e) => {
     e.preventDefault();
@@ -90,11 +62,6 @@ export default class NewBill {
     const filePath = e.target.value.split(/\\/g);
     const fileName = filePath[filePath.length - 1];
 
-    this.fileName = this.file.name;
-    this.fileUrl = e.currentTarget.value;
-
-    console.log(this.fileName, "&", this.fileUrl);
-
     const email = JSON.parse(localStorage.getItem("user")).email;
 
     const formData = new FormData();
@@ -104,9 +71,6 @@ export default class NewBill {
     this.store
       .bills()
       .create({
-        //Problem lies within this line
-        //after we upload the image → The page refreshes itself
-        //and sends the uncompleted bill with the image file to the Database
         data: formData,
         headers: {
           noContentType: true,
@@ -121,84 +85,85 @@ export default class NewBill {
       .catch((error) => console.error(error));
   };
 
-  // handleChangeFile = (e) => {
-  //   e.preventDefault();
-  //   const file = this.document.querySelector(`input[data-testid="file"]`)
-  //     .files[0];
-  //   const filePath = e.target.value.split(/\\/g);
-  //   const fileName = filePath[filePath.length - 1];
-  //   const formData = new FormData();
-  //   const email = JSON.parse(localStorage.getItem("user")).email;
-  //   formData.append("file", file);
-  //   formData.append("email", email);
-  //   this.fileName = fileName;
-  //   this.fileUrl = e.target.value;
-  // this.store
-  //   .bills()
-  //   .create({
-  //     //Problem lies within this line
-  //     //after we upload the image → The page refreshes itself
-  //     //and sends the uncompleted bill with the image file to the Database
-  //     data: formData,
-  //     headers: {
-  //       noContentType: true,
-  //     },
-  //   })
-  //   .then(({ fileUrl, key }) => {
-  //     console.log(fileUrl);
-  //     this.billId = key;
-  //     this.fileUrl = fileUrl;
-  //     this.fileName = fileName;
-  //   })
-  //   .catch((error) => console.error(error));
-  // };
-  /*
-
-*/
   //
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(
-      'e.target.querySelector(`input[data-testid="datepicker"]`).value',
-      e.target.querySelector(`input[data-testid="datepicker"]`).value
-    );
-    const email = JSON.parse(localStorage.getItem("user")).email;
+
+    const userInfos = JSON.parse(localStorage.getItem("user"));
+
+    const valueOfEmail = userInfos.email;
+
+    const valueOfType = e.target.querySelector(
+      `select[data-testid="expense-type"]`
+    ).value;
+
+    const valueOfName = e.target.querySelector(
+      `input[data-testid="expense-name"]`
+    ).value;
+
+    const valueOfAmount = e.target.querySelector(
+      `input[data-testid="amount"]`
+    ).valueAsNumber;
+
+    const valueOfDate = e.target.querySelector(
+      `input[data-testid="datepicker"]`
+    ).valueAsDate;
+
+    const valueOfPercentage =
+      e.target.querySelector(`input[data-testid="pct"]`).valueAsNumber || 20;
+    const valueOfVAT = e.target.querySelector(
+      `input[data-testid="vat"]`
+    ).valueAsNumber;
+
+    const valueOfCommentary = e.target.querySelector(
+      `textarea[data-testid="commentary"]`
+    ).value;
+
     const bill = {
-      email,
-      type: e.target.querySelector(`select[data-testid="expense-type"]`).value,
-      name: e.target.querySelector(`input[data-testid="expense-name"]`).value,
-      amount: parseInt(
-        e.target.querySelector(`input[data-testid="amount"]`).value
-      ),
-      date: e.target.querySelector(`input[data-testid="datepicker"]`).value,
-      vat: e.target.querySelector(`input[data-testid="vat"]`).value,
-      pct:
-        parseInt(e.target.querySelector(`input[data-testid="pct"]`).value) ||
-        20,
-      commentary: e.target.querySelector(`textarea[data-testid="commentary"]`)
-        .value,
+      email: valueOfEmail,
+      type: valueOfType,
+      name: valueOfName,
+      amount: valueOfAmount,
+      date: valueOfDate,
+      vat: valueOfVAT,
+      pct: valueOfPercentage,
+      commentary: valueOfCommentary,
       fileUrl: this.fileUrl,
       fileName: this.fileName,
       status: "pending",
     };
-    this.store
-      .bills()
-      .create({
-        data: bill,
-        headers: {
-          noContentType: false,
-        },
-      })
-      .then(({ fileUrl, key }) => {
-        console.log({ fileUrl, key });
-        this.billId = key;
-        this.fileUrl = fileUrl;
-        this.fileName = fileName;
-        e.preventDefault();
-      })
-      .catch((error) => console.error(error));
-    this.updateBill(bill);
-    this.onNavigate(ROUTES_PATH["Bills"]);
+
+    let propertiesAreDefined = false;
+    let counterOfDefinedProperties = 0;
+
+    for (const property in bill) {
+      console.log(property, "has a value of → ", bill[property]);
+
+      const propertyIsNotUndefined = !!bill[property];
+      if (propertyIsNotUndefined) {
+        counterOfDefinedProperties++;
+        continue;
+      } else {
+        break;
+      }
+    }
+
+    const amountOfPropertiesInBill = Object.keys(bill).length;
+
+    //Verifies if all the propertied are defined
+    counterOfDefinedProperties === amountOfPropertiesInBill
+      ? (propertiesAreDefined = true)
+      : (propertiesAreDefined = false);
+
+    //Depending on whether all the properties in the bill object are defined or not, the bill will or won't be sent to the Back-end
+    if (propertiesAreDefined) {
+      console.log({ propertiesAreDefined }, "✔");
+      this.updateBill(bill);
+      this.onNavigate(ROUTES_PATH["Bills"]);
+    } else {
+      console.log({ propertiesAreDefined }, "❌");
+      return;
+    }
   };
 
   // not need to cover this function by tests

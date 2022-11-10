@@ -26,35 +26,35 @@ export default () => {
                   </div>
                   <div class="col-half">
                     <label for="expense-name" class="bold-label">Nom de la dépense</label>
-                    <input type="text" class="form-control blue-border" data-testid="expense-name" placeholder="Vol Paris Londres" />
+                    <input required type="text" class="form-control blue-border" data-testid="expense-name" id="expense-name" placeholder="Vol Paris Londres" />
                   </div>
                   <div class="col-half">
                     <label for="datepicker" class="bold-label">Date</label>
-                    <input required type="date" class="form-control blue-border" data-testid="datepicker" />
+                    <input required  type="date" class="form-control blue-border" data-testid="datepicker" id="datepicker"/>
                   </div>
                   <div class="col-half">
                     <label for="amount" class="bold-label">Montant TTC </label>
-                    <input required type="number" class="form-control blue-border input-icon input-icon-right" data-testid="amount" placeholder="348"/>
+                    <input required  type="number" class="form-control blue-border input-icon input-icon-right" data-testid="amount" id="amount" placeholder="348" min="0"/>
                   </div>
                   <div class="col-half-row">
                     <div class="flex-col"> 
                       <label for="vat" class="bold-label">TVA</label>
-                      <input type="number" class="form-control blue-border" data-testid="vat" placeholder="70" />
+                      <input required type="number" class="form-control blue-border" data-testid="vat" id="vat" placeholder="70"  min="0"/>
                     </div>
                     <div class="flex-col">
                       <label for="pct" class="white-text">%</label>
-                      <input required type="number" class="form-control blue-border" data-testid="pct" placeholder="20" />
+                      <input required type="number" class="form-control blue-border" data-testid="pct" id="pct" placeholder="20" min="0" />
                     </div>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="col-half">
                     <label for="commentary" class="bold-label">Commentaire</label>
-                    <textarea class="form-control blue-border" data-testid="commentary" rows="3"></textarea>
+                    <textarea class="form-control blue-border" data-testid="commentary" id="commentary" rows="3"></textarea>
                   </div>
                   <div class="col-half">
                     <label for="file" class="bold-label">Justificatif</label>
-                    <input required type="file" class="form-control blue-border" data-testid="file" accept="image/*,.png,.jpg,.jpeg"/>
+                    <input required type="file" class="form-control blue-border" data-testid="file" id="file" accept="image/*,.png,.jpg,.jpeg"/>
                   </div>
                 </div>
             </div>

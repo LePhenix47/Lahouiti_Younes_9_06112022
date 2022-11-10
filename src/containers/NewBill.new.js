@@ -109,19 +109,6 @@ export default class NewBill {
       `textarea[data-testid="commentary"]`
     ).value;
 
-    const formData = new FormData();
-    formData.append("email", valueOfEmail);
-    formData.append("type", valueOfType);
-    formData.append("name", valueOfName);
-    formData.append("amount", valueOfAmount);
-    formData.append("date", valueOfDate);
-    formData.append("vat", valueOfVAT);
-    formData.append("pct", valueOfPercentage);
-    formData.append("commentary", valueOfCommentary);
-    formData.append("fileUrl", this.fileUrl);
-    formData.append("fileName", this.fileName);
-    formData.append("status", "pending");
-
     /* 
     const email = JSON.parse(localStorage.getItem("user")).email
     const bill = {
