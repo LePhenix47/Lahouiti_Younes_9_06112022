@@ -1,5 +1,11 @@
 # Ce projet contient le code du 9ème projet de la formation de Développeur JS-React chez OpenClassrooms
 
+- Code original du Front-end: https://github.com/OpenClassrooms-Student-Center/Billed-app-FR-Front
+
+- Code original du Back-end: https://github.com/OpenClassrooms-Student-Center/Billed-app-FR-back
+
+---
+
 Nous avons dans la [Kanban Notion](https://www.notion.so/a7a612fc166747e78d95aa38106a55ec?v=2a8d3553379c4366b6f66490ab8f0b90&p=01b2963f50654215baae678fa4dc4851&pm=s):
 
 > 4 bugs à corriger:
