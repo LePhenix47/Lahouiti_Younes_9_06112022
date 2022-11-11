@@ -26,6 +26,12 @@ Nous avons dans la [Kanban Notion](https://www.notion.so/a7a612fc166747e78d95aa3
 
 > Rédiger un test "End-to-end" sur le parcours employé sur Word
 
+> Pour voir le taux du code coverage:
+
+```cmd
+http://127.0.0.1:8080/coverage/lcov-report/
+```
+
 ---
 
 ## Commandes utiles:
