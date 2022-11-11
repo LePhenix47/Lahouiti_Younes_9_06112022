@@ -23,6 +23,8 @@ export default class NewBill {
 
   handleChangeFile = (e) => {
     e.preventDefault();
+    e.stopImmediatePropagation();
+
     const inputFile = this.document.querySelector(`input[data-testid="file"]`);
 
     const file = inputFile.files[0];
@@ -68,6 +70,7 @@ export default class NewBill {
     formData.append("email", email);
     formData.append("file", file);
 
+    debugger;
     this.store
       .bills()
       .create({
@@ -81,6 +84,7 @@ export default class NewBill {
         this.billId = key;
         this.fileUrl = fileUrl;
         this.fileName = fileName;
+        e.preventDefault();
       })
       .catch((error) => console.error(error));
   };
@@ -137,9 +141,20 @@ export default class NewBill {
     let counterOfDefinedProperties = 0;
 
     for (const property in bill) {
-      console.log(property, "has a value of → ", bill[property]);
+      console.log(
+        property,
+        "has a value of → ",
+        typeof bill[property] === "string"
+          ? `"${bill[property]}"`
+          : bill[property]
+      );
+
+      if (property === "commentary") {
+        continue;
+      }
 
       const propertyIsNotUndefined = !!bill[property];
+
       if (propertyIsNotUndefined) {
         counterOfDefinedProperties++;
         continue;
