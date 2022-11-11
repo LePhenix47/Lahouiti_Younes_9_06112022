@@ -42,7 +42,6 @@ export default class {
         .list()
         .then((snapshot) => {
           const bills = snapshot
-
             .sort((object1, object2) => {
               //To sort the bills by their date in descending order: most recent to oldest
               return new Date(object2.date) - new Date(object1.date);
